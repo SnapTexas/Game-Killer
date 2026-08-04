@@ -1,1 +1,1 @@
-powershell -Command "python C:\Users\ASUS\Desktop\Code\Stop-Gaming-Get-A-Job\Zzzzz.py; Start-Sleep -Seconds 5"
+powershell -Command "python path to python file;"
