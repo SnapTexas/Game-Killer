@@ -1,36 +1,28 @@
-import psutil
-import os 
-import signal
 import time 
-from db_handeling import update_game_data
+from game_manager import *
 from meme_rendering import render_gif
-games=["Tavern.exe"]
-def kill_game(name,id,game):
-    if name in games:
-        print(f"Found name:{name} ,process_id:{id}")
-        print("Now killing the game! UwU ")
-        print("Killing in ",end="")
-        for i in range(5,0,-1):
-            time.sleep(1)
-            print(i,end=" ",flush=True)
-        print()
-        os.kill(id,signal.SIGTERM)
-
+import datetime
+games={"DarkAndDarker":"Tavern.exe"}
+game="DarkAndDarker"
+time_data=datetime.datetime.now()
+date=str(time_data.date())
+print(type(date),date)
 memes_path=[i for i in os.listdir("memes")]
 print(memes_path)
+
+
 def main():
     while True:    
-        for process in psutil.process_iter():
-            id=process.pid
-            name=process.name()
-            #print(f"pid : {id} - name :{name}")
-            kill_game(name=name,id=id,game=games)
-            break   
-                
-                
-                    
-        print("Sleeping")
-        time.sleep(1)
+        game_running=find_game(game_name=games[game])
+        result=None
+        if game_running:
+            result=does_record_exits(date=date,game_name=game)
+        if result is not None:
+            
+            update_game_data(date=date,total_usage=) 
+
+            pass
+        time.sleep(60)
         
 
 main()      

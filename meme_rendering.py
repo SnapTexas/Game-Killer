@@ -36,7 +36,10 @@ def render_gif(filename):
 
     play_frame(0)
 
-
-render_gif("m1.gif")
-
-app.mainloop()
+def main():
+    render_gif("m1.gif")
+    
+    app.mainloop()
+if __name__=='__main__':
+    main()
+    
