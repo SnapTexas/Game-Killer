@@ -30,8 +30,8 @@ def find_game(game_name:str)->int|None:
 
 def get_runtime(game_id:int)->int:
     p=psutil.Process(game_id)
-    start_time=datetime.fromtimestamp(p.create_time())
-    run_time=datetime.now() - start_time
+    start_time=datetime.datetime.fromtimestamp(p.create_time())
+    run_time=datetime.datetime.now() - start_time
     return int(run_time.total_seconds()//60)
 
 async def punish(actual_time_played, game_limit):

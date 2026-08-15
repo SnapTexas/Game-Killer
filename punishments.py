@@ -1,6 +1,5 @@
 from meme_rendering import render_gif
 import random
-import time
 import os
 import asyncio
 import pyautogui
@@ -55,8 +54,9 @@ def activate_keys(keys):
 async def punish_level_1():
     play_time=random.randint(3,15)
     meme=random.choice(memes)
-    meme_chosen=f"memes/{meme}"
-    render_gif(filename=meme_chosen,time_play=play_time)
+    print(meme,play_time)
+    
+    render_gif(filename=meme,time_play=play_time)
     sleep_time=random.randint(1,30)
     await asyncio.sleep(sleep_time)
 
@@ -90,3 +90,9 @@ async def punish_level_3():
     send_email(message=message)
     sleep_time=random.randint(1,30)
     await asyncio.sleep(sleep_time)
+
+async def main():
+    await punish_level_1()
+
+if __name__=='__main__':
+    asyncio.run(main())

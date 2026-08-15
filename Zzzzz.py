@@ -13,6 +13,7 @@ async def main():
         runtime=None
         result=None
         total_time_played=None
+        actual_time_played=None
         while True:    
             time_data=datetime.datetime.now()
             date=str(time_data.date())
@@ -24,17 +25,21 @@ async def main():
             if game_id is not None:
                 runtime=get_runtime(game_id=game_id)
                 print("Getting runtime")
-            else:
-
-
-                if runtime is not None :
-                    total_time_played=total_time_played+runtime
-                    update_game_data(date=date,
-                                    total_usage=total_time_played,
-                                    last_played=time_data.now())
-                    runtime=None
-                    time.sleep(60)
+            elif game_id is None and actual_time_played is not None:
+                print(f"Game Stopped and Runtime {runtime}")
+                result=update_game_data(date=date,
+                                        game_name=games['DarkAndDarker'],
+                                        total_usage=actual_time_played,
+                                        last_played=time_data)
+                
+                if result:
+                    print("Updated SuccessFully game time played")
+                    actual_time_played=None
                 else:
+                    print("Failed to update game runtime ")
+                runtime=None
+                    
+                
                     
             if game_data:
                 # game_data:
@@ -49,16 +54,16 @@ async def main():
                 if runtime is not None:
                     
                     actual_time_played=total_time_played+runtime
-                
+                    print("actual time played:",actual_time_played)
                     
 
-                if  actual_time_played > game_limit:
-                    #time limit check
-                    await punish(actual_time_played=actual_time_played,
-                           game_limit=game_limit)
+                    if  actual_time_played > game_limit :
+                        #time limit check
+                        await punish(actual_time_played=actual_time_played,
+                            game_limit=game_limit)
             
                 
-            else:
+            if game_data is None and game_id is not None:
                 print("Hello")
                 day = time_data.strftime("%A")
                 result=create_game_record(day=day,
@@ -73,7 +78,7 @@ async def main():
                 else:
                     print("Record not Created!!")
 
-            time.sleep(2)
+            await asyncio.sleep(60)
     except Exception as e:
         print(e)
         

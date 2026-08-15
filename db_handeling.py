@@ -23,7 +23,7 @@ def handel_sqlite_exception(func):
     return wrapper
 
 @handel_sqlite_exception
-def update_game_data(date,total_usage,last_played):
+def update_game_data(date,game_name,total_usage,last_played):
         global games_table_name
     
         
@@ -33,12 +33,12 @@ def update_game_data(date,total_usage,last_played):
                         last_played = ?
                 WHERE date = ? AND game_name = ?
                 """
-        result = cursor.execute(update_query,(total_usage,
+        cursor.execute(update_query,(total_usage,
                                     last_played,
                                     date,
                                     game_name))
         connection.commit()
-        return result 
+        return True 
 
 @handel_sqlite_exception
 def find_record(date:str,game_name:str)->tuple|None:

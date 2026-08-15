@@ -34,7 +34,7 @@ def render_gif(filename, time_play):
     # Load GIF frames
     frames = []
 
-    gif = Image.open(f"memes\\{filename}")
+    gif = Image.open(rf"memes\{filename}")
 
     try:
         while True:
