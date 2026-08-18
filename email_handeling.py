@@ -11,13 +11,18 @@ receiver = os.getenv('receiver')
 app_password = os.getenv('app_password')
 
 msg = EmailMessage()
-msg["Subject"] = "Game-Killer Alert"
-msg["From"] = sender
-msg["To"] = receiver
-msg.set_content("Gaming limit exceeded!")
+
 
 def send_email(message):
+
+    msg["Subject"] = "Game-Killer Alert"
+    msg["From"] = sender
+    msg["To"] = receiver
+    msg.set_content(message)
+
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(sender, app_password)
-        smtp.send_message(message)
+        smtp.send_message(msg)
         print("Send")
+
+# send_email("Hi")

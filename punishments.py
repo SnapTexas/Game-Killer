@@ -6,12 +6,12 @@ import pyautogui
 from email_handeling import send_email
 memes=os.listdir('./memes')
 print(memes)
-
+sms=None
 keyboard_controls = [
-        'w', 'a', 's', 'd',
-        'space', 'shift', 'ctrl',
-        'tab', 'esc',
-        'q', 'e'
+        'w', 'a', 's', 'd'
+        # ,'space', 'shift', 'ctrl',
+        # 'tab', 'esc',
+        # 'q', 'e'
     ]
 
 mouse_controls = [
@@ -52,7 +52,7 @@ def activate_keys(keys):
     
 
 async def punish_level_1():
-    play_time=random.randint(3,15)
+    play_time=random.randint(9,20)
     meme=random.choice(memes)
     print(meme,play_time)
     
@@ -73,10 +73,11 @@ def deactivate_keys(keys):
 async def punish_level_2():
     global activated_keys
     
-    controls=[keyboard_controls,mouse_controls,mouse_movements]
+    controls=[keyboard_controls]
     chosen_control=random.choice(controls)
     key_to_activate=random.choice(chosen_control)
     activated_keys.append(key_to_activate)
+    print(key_to_activate)
     activate_keys(keys=activated_keys)
     sleep_time=random.randint(1,30)
     await asyncio.sleep(sleep_time)
@@ -86,10 +87,14 @@ async def punish_level_2():
         
     
 async def punish_level_3():
-    message="Still Playing Game"
-    send_email(message=message)
-    sleep_time=random.randint(1,30)
-    await asyncio.sleep(sleep_time)
+    global sms
+    
+    if sms is None:
+        message="Still Playing Game"
+        send_email(message=message)
+        sleep_time=random.randint(1,30)
+        await asyncio.sleep(sleep_time)
+        sms=True
 
 async def main():
     await punish_level_1()
