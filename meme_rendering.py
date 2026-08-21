@@ -1,15 +1,23 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+import time
 
 
-app = tk.Tk()
-app.withdraw()   # hide the main window
+def render_gif(filename, time_play):
 
+    root = tk.Tk()
 
-def render_gif(filename):
-    root = tk.Toplevel()
+    window_width = 300
+    window_height = 300
 
-    root.geometry("300x300+500+300")
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    x = (screen_width - window_width) // 2
+    y = (screen_height - window_height) // 2
+
+    root.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
     root.overrideredirect(True)
     root.attributes("-topmost", True)
 
@@ -18,7 +26,7 @@ def render_gif(filename):
 
     frames = []
 
-    gif = Image.open(f"memes\\{filename}")
+    gif = Image.open(rf"memes\{filename}")
 
     try:
         while True:
@@ -27,19 +35,23 @@ def render_gif(filename):
     except EOFError:
         pass
 
+    start_time = time.time()
+
     def play_frame(index):
-        if index < len(frames):
-            label.config(image=frames[index])
-            root.after(50, lambda: play_frame(index + 1))
-        else:
+
+        if time.time() - start_time >= time_play:
             root.destroy()
+            return
+
+        label.config(image=frames[index])
+
+        next_index = (index + 1) % len(frames)
+
+        root.after(
+            50,
+            lambda: play_frame(next_index)
+        )
 
     play_frame(0)
 
-def main():
-    render_gif("m1.gif")
-    
-    app.mainloop()
-if __name__=='__main__':
-    main()
-    
+    root.mainloop()

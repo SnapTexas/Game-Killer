@@ -23,7 +23,7 @@ def handel_sqlite_exception(func):
     return wrapper
 
 @handel_sqlite_exception
-def update_game_data(date,total_usage,last_played):
+def update_game_data(date,game_name,total_usage,last_played):
         global games_table_name
     
         
@@ -33,22 +33,22 @@ def update_game_data(date,total_usage,last_played):
                         last_played = ?
                 WHERE date = ? AND game_name = ?
                 """
-        result = cursor.execute(update_query,(total_usage,
+        cursor.execute(update_query,(total_usage,
                                     last_played,
                                     date,
                                     game_name))
         connection.commit()
-        return result 
+        return True 
 
 @handel_sqlite_exception
-def does_record_exits(date,game_name):
+def find_record(date:str,game_name:str)->tuple|None:
     global games_table_name
     serach_query=f"""SELECT * FROM {games_table_name} WHERE game_name = ? AND date= ?"""
     cursor.execute(serach_query,(game_name,date))
     result=cursor.fetchone()
     if result is not None:
-        return True
-    return False   
+        return result
+    return None   
 
 #Working
 @handel_sqlite_exception
@@ -71,10 +71,15 @@ def create_game_record(day,game_name,date,time,total_time_played=0):
 #Working
 
 @handel_sqlite_exception
-def get_game_limit(game_name,game_limits):
+def get_game_limit(game_name:str)->int|None:
+    global game_limits
     cursor.execute(f"""SELECT time_limit FROM {game_limits} WHERE game_name = ?""",(game_name,))
     result=cursor.fetchone()
-    return result[0]
+    if result:
+         return result[0]
+    else:
+         raise Exception(f"game limit of {game_name} doesn't exist!!")
+    
 
 #Working
 @handel_sqlite_exception
