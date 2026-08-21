@@ -27,6 +27,7 @@ async def main():
                 print("Getting runtime")
             elif game_id is None and actual_time_played is not None:
                 print(f"Game Stopped and Runtime {runtime}")
+                print("actual time played",actual_time_played)
                 result=update_game_data(date=date,
                                         game_name=games['DarkAndDarker'],
                                         total_usage=actual_time_played,

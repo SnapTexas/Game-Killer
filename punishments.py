@@ -9,7 +9,7 @@ print(memes)
 sms=None
 keyboard_controls = [
         'w', 'a', 's', 'd'
-        # ,'space', 'shift', 'ctrl',
+        # 'space', 'shift', 'ctrl',
         # 'tab', 'esc',
         # 'q', 'e'
     ]

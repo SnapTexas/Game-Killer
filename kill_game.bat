@@ -1,1 +1,1 @@
-powershell -Command "python path to python file;"
+powershell Start-Process python.exe -ArgumentList "C:\Users\ASUS\Desktop\Code\Stop-Gaming-Get-A-Job\Zzzzz.py" 
